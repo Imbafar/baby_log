@@ -1,19 +1,19 @@
 from django import forms
 
 
-from .models import Record
+from .models import Weight
 
 
-class RecordForm(forms.ModelForm):
+class WeightForm(forms.ModelForm):
     class Meta:
-        model = Record
-        fields = ("text", "pub_date")
+        model = Weight
+        fields = ("amount", "pub_date")
         labels = {
-            "text": "Количество",
+            "amount": "Вес",
             "pub_date": "Время",
         }
         help_texts = {
-            "text": "Введите мл",
+            "amount": "Введите граммы",
             "pub_date": "Введите время",
         }
         verbose_name = "Форма записи"

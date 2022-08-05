@@ -1,11 +1,55 @@
 <header>
-  <nav class="navbar navbar-light" style="background-color: lightskyblue">
+  {% load static %}
+  {% comment %} <nav class="navbar navbar-light" style="background-color: lightskyblue">
     <div class="container">
       <a class="navbar-brand" href="{% url 'logs:index' %}">
-        {% load static %}
-        <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
-        <span>Журнал потребления молока</span>
+        <img src="{% static 'img/logo.svg' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        Дашкин журнал
       </a>
     </div>
-  </nav>
+  </nav> {% endcomment %}
+  <div class="container">
+
+    {% with request.resolver_match.view_name as view_name %}
+
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link {% if view_name  == 'logs:index' %}active{% endif %}" href="{% url 'logs:index' %}">
+          Главная
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link {% if view_name  == 'logs:record_create' %} 
+            active
+          {% endif %}" href="{% url 'logs:record_create' %}">
+          Добавить запись</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link {% if view_name  == 'weight:index' %} 
+        active
+        {% endif %}" href="{% url 'weight:index' %}">Вес малышарика</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if view_name  == 'weight:weight_create' %} 
+        active
+        {% endif %}" href="{% url 'weight:weight_create' %}">Добавить вес</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if view_name  == 'about:author' %} 
+                active
+              {% endif %}" href="{% url 'about:author' %}">
+          Об авторе</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if view_name  == 'about:tech' %} 
+              active
+            {% endif %}" href="{% url 'about:tech' %}">Технологии</a>
+      </li>
+    </ul>
+
+    {% endwith %}
+  </div>
+
 </header>

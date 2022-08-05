@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Запись {{ record.text }}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <aside class="col-12 col-md-3">
+    <ul class="list-group list-group-flush">
+
+      <li class="list-group-item">
+        Дата публикации: {{ record.pub_date|date:"d E Y" }}
+      </li>
+
+      <li class="list-group-item">
+        Автор: {{ record.author }}
+      </li>
+
+    </ul>
+  </aside>
+  <article class="col-12 col-md-9">
+
+    <p>
+      {{ record.text|linebreaksbr }}
+    </p>
+    {% if request.user == record.author %}
+    <a class="btn btn-primary" href="{% url 'logs:record_edit' record.id %}">редактировать запись</a>
+    {% endif %}
+
+    {% load user_filters %}
+
+
+  </article>
+
+</div>
+{% endblock %}

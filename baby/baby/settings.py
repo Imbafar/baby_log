@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-btmg@jbb#*74542vu1m_wsctrx!+*9*t57@1_%sjd%4cd$2-p_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '0.0.0.0', '51.250.74.167', '127.0.0.1']
 
 
 # Application definition
@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'log',
     'core',
-    
+    'about',
+    'weight',
 ]
 
 MIDDLEWARE = [
@@ -119,7 +120,6 @@ USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
 
 
 STATICFILES_DIRS = [

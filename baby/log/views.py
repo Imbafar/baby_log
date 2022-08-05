@@ -1,5 +1,6 @@
 from django.conf import settings
 from itertools import groupby
+
 # from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
@@ -11,16 +12,6 @@ from .forms import RecordForm
 def extract_date(entity):
     return entity.pub_date.date()
 
-def index(request):
-    record_list = Record.objects.all()
-    paginator = Paginator(record_list, settings.POSTS_FOR_PAGE)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    context = {
-        'page_obj': page_obj,
-    }
-    return render(request, 'records/index.html', context)
-
 
 def record_create(request):
     form = RecordForm(request.POST or None)
@@ -28,22 +19,55 @@ def record_create(request):
         record = form.save(commit=False)
         record.author = request.user
         record.save()
-        return redirect('logs:index')
-    return render(request, 'records/create_record.html', {'form': form})
+        return redirect("logs:index")
+    return render(request, "records/create_record.html", {"form": form})
 
-def index2(request):
+
+def index(request):
     record_list = Record.objects.all()
     paginator = Paginator(record_list, settings.POSTS_FOR_PAGE)
-    page_number = request.GET.get('page')
+    page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     list_of_lists = [list(g) for _, g in groupby(page_obj, key=extract_date)]
-    
+    list_of_total = []
     for date in list_of_lists:
-        summ = 0
+        total = 0
         for item in date:
-            summ += item.text
-        print(item.pub_date.day, summ)
+            total += item.text
+        list_of_total.append(total)
+    # to do: make list with list comprehensions
+    list_of_lists = zip(list_of_lists, list_of_total)
     context = {
-        'list_of_lists': list_of_lists,
+        "list_of_lists": list_of_lists,
     }
-    return render(request, 'records/index2.html', context)
+    return render(request, "records/index.html", context)
+
+
+def record_detail(request, record_id):
+    record = get_object_or_404(Record, id=record_id)
+    form = RecordForm()
+    context = {
+        "record": record,
+        "form": form,
+    }
+    return render(request, "records/record_detail.html", context)
+
+
+def record_edit(request, record_id):
+    record = get_object_or_404(Record, id=record_id)
+    if request.user != record.author:
+        return redirect("logs:record_detail", record_id)
+
+    form = RecordForm(request.POST or None, instance=record)
+    if form.is_valid():
+        form.save()
+        return redirect("logs:index")
+    context = {"form": form, "post": record, "is_edit": True}
+    return render(request, "records/create_record.html", context)
+
+
+def record_delete(request, record_id):
+    record = get_object_or_404(Record, id=record_id)
+    obj = Record.objects.filter(id=record_id)
+    obj.delete()
+    return redirect("logs:index")

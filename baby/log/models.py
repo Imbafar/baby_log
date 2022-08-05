@@ -7,26 +7,17 @@ User = get_user_model()
 
 
 class Record(models.Model):
-    
-    text = models.PositiveIntegerField(
-        'Сколько мл',
-        help_text='Введите мл'
-    )
-    pub_date = models.DateTimeField(
-        'Дата записи',
-        default=timezone.now
-    )
+
+    text = models.PositiveIntegerField("Сколько мл", help_text="Введите мл")
+    pub_date = models.DateTimeField("Дата записи", default=timezone.now)
     author = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='record',
-        verbose_name='Автор'
+        User, on_delete=models.CASCADE, related_name="record", verbose_name="Автор"
     )
 
     class Meta:
-        ordering = ['-pub_date']
-        verbose_name = 'Запись'
-        verbose_name_plural = 'Записи'
+        ordering = ["-pub_date"]
+        verbose_name = "Запись"
+        verbose_name_plural = "Записи"
 
     def __str__(self):
-        return f'{self.text}'
+        return f"{self.text}"
