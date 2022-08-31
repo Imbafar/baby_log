@@ -13,6 +13,7 @@ class Record(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="record", verbose_name="Автор"
     )
+    kasha = models.BooleanField('Каша ли это?', default=False)
 
     class Meta:
         ordering = ["-pub_date"]

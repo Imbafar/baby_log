@@ -51,7 +51,14 @@
                 {% endif %}
               </label>
               <div>
-                {{ field|addclass:'form-control' }}
+                {% if not forloop.last %}
+                  {{ field|addclass:'form-control' }}
+                {% else %}
+                  {{ field|addclass:'form-check-input' }}
+                {% endif%}
+
+
+
                 {% if field.help_text %}
                 <small id="{{ field.id_for_label }}-help" class="form-text text-muted">
                   {{ field.help_text|safe }}

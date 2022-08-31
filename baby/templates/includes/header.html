@@ -37,6 +37,11 @@
         {% endif %}" href="{% url 'weight:weight_create' %}">Добавить вес</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link {% if view_name  == 'sleeptime:index' %} 
+        active
+        {% endif %}" href="{% url 'sleeptime:index' %}">Сон    </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link {% if view_name  == 'about:author' %} 
                 active
               {% endif %}" href="{% url 'about:author' %}">

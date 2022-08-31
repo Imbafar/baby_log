@@ -15,28 +15,24 @@
       <h3 class="text-center">Время</h3>
     </div>
     <div class="col-9" style="background: lightskyblue;">
-      <h3 class="text-center">Сколько съели, сколько съели?!</h3>
+      <h3 class="text-center">Сколько наели, сколько наели?!</h3>
     </div>
     <hr>
   </div>
 
-  {% for record_list, total, total_kasha in list_of_lists %}
+  {% for weight in page_obj %}
 
-  {% for record in record_list%}
   <div class="row">
     <div class="col-3" style="background: lightblue;">
-      {{ record.pub_date|time:"H:i"}}
-      {{ record.pub_date|date}}
+      {{ weight.pub_date|time:"H:i"}}
+      {{ weight.pub_date|date}}
 
     </div>
     <div class="col-8" style="background: lightskyblue;">
-      {{ record.text }} мл
-      {% if record.kasha %}
-       *
-      {% endif %}
+      {{ weight.amount }} грамм
     </div>
     <div class="col-1" style="background: lightskyblue;">
-      <a href="{% url 'logs:record_edit' record.id %}">
+      <a href="{% url 'weight:weight_edit' weight.id %}">
         <img src="{% static 'img/pencil-square.svg' %}" width="30" height="30" class="rounded float-end" alt="">
       </a>
     </div>
@@ -44,12 +40,6 @@
   {% if not forloop.last %}
   <br>
   {% endif %}
-  {% endfor %}
-  <hr>
-  Итог за день 
-  <br>
-  Молока: {{ total }} мл. Каши: {{ total_kasha }}
-  <hr>
   {% endfor %}
 
   {% include 'includes/paginator.html' %}

@@ -30,13 +30,19 @@ def index(request):
     page_obj = paginator.get_page(page_number)
     list_of_lists = [list(g) for _, g in groupby(page_obj, key=extract_date)]
     list_of_total = []
+    list_of_kasha = []
     for date in list_of_lists:
         total = 0
+        total_kasha = 0
         for item in date:
-            total += item.text
+            if not item.kasha:
+                total += item.text
+            else:
+                total_kasha += item.text
         list_of_total.append(total)
-    # to do: make list with list comprehensions
-    list_of_lists = zip(list_of_lists, list_of_total)
+        list_of_kasha.append(total_kasha)
+    # todo: make lists with list comprehensions
+    list_of_lists = zip(list_of_lists, list_of_total, list_of_kasha)
     context = {
         "list_of_lists": list_of_lists,
     }
